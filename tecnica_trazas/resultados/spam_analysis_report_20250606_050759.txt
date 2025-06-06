@@ -1,0 +1,300 @@
+======================================================================
+                         INICIANDO ANÁLISIS DE SPAM/HAM             
+======================================================================
+Fecha y Hora del Reporte: Fri Jun  6 05:07:59 AM EDT 2025
+Archivo de Datos Analizado: /mnt/c/Me/School/ADT/proyecto_sms_spam/tecnica_ia/datos_raw/SMSSpamCollection.txt
+----------------------------------------------------------------------
+Preparando datos: Filtrando mensajes de spam y ham...
+Número total de mensajes en el dataset: 5574
+Número total de mensajes de spam: 747
+Número total de mensajes ham: 4827
+
+----------------------------------------------------------------------
+1. ANÁLISIS DE PALABRAS CLAVE COMUNES (SPAM)
+----------------------------------------------------------------------
+Las 15 palabras más comunes en el SPAM (excluyendo stop words básicas y palabras de una letra):
+128   stop
+126   text
+113   claim
+104   reply
+98    www
+93    prize
+76    won
+76    cash
+74    uk
+72    win
+71    send
+71    nokia
+63    urgent
+60    week
+60    tone
+
+----------------------------------------------------------------------
+2. ANÁLISIS DE N-GRAMAS (SPAM)
+----------------------------------------------------------------------
+Top 15 Bigramas (pares de palabras) en spam:
+73    you
+54    have
+49    your
+46    to
+44    please
+40    won
+40    this
+37    to
+35    you
+29    stop
+28    a
+27    u
+27    po
+27    cash
+25    will
+
+Top 15 Trigramas (triples de palabras) en spam:
+37    you
+33    have
+21    prize
+21    1000
+18    urgent
+18    to
+16    valid
+16    to
+16    from
+16    account
+15    trying
+15    this
+15    is
+15    cash
+14    we
+
+----------------------------------------------------------------------
+3. ANÁLISIS DE POSIBLES REMITENTES/IDENTIFICADORES (SPAM)
+----------------------------------------------------------------------
+Shortcodes o números de remitente comunes (5-6 dígitos - Top 15):
+19    86688
+13    87066
+8     87077
+7     85023
+7     82277
+7     62468
+7     36504
+6     86021
+5     83355
+5     80488
+5     80062
+4     88039
+4     87575
+4     87239
+4     87131
+
+Nombres de empresas o servicios comunes (identificados en el texto - Top 15):
+1296  p
+422   P
+324   £
+232   call
+165   Call
+134   FREE
+121   txt
+112   mobile
+105   min
+86    Txt
+82    claim
+79    prize
+69    free
+66    STOP
+64    stop
+
+----------------------------------------------------------------------
+4. ANÁLISIS DE URLs SOSPECHOSAS (SPAM)
+----------------------------------------------------------------------
+URLs encontradas en mensajes de spam (Top 15):
+5     http://www.urawinner.com
+2     http://www.e-tlp.co.uk/expressoffer
+1     http://www.wtlp.co.uk/text.
+1     http://www.vouch4me.com/etlp
+1     http://www.e-tlp.co.uk/reward.
+1     http://www.bubbletext.com
+1     http://gotbabes.co.uk
+1     http://alto18.co.uk/wave
+
+----------------------------------------------------------------------
+5. DETECCIÓN DE DIRECCIONES DE CORREO ELECTRÓNICO (SPAM)
+----------------------------------------------------------------------
+Direcciones de correo electrónico encontradas en mensajes de spam (Top 15):
+1     tddnewsletter@emc1.co.uk
+1     msg+ticket@kiosk.Valid
+1     info@txt82228.co.uk
+1     info@ringtoneking.co.uk
+1     Dorothy@kiefer.com
+1     customersqueries@netvision.uk.com
+
+----------------------------------------------------------------------
+6. EXTRACCIÓN DE DOMINIOS (HOSTNAMES) DE URLs (SPAM)
+----------------------------------------------------------------------
+Dominios más frecuentes en URLs de spam (Top 15):
+5     urawinner.com
+3     e-tlp.co.uk
+1     wtlp.co.uk
+1     vouch4me.com
+1     gotbabes.co.uk
+1     bubbletext.com
+1     alto18.co.uk
+
+----------------------------------------------------------------------
+7. ANÁLISIS DE PATRONES DE NÚMEROS DE TELÉFONO (SPAM)
+----------------------------------------------------------------------
+Números de teléfono encontrados en mensajes de spam (Patrones comunes UK/general - Top 15):
+16    08000930705
+15    08000839402
+8     08712460324
+7     08718720201
+6     09050090044
+6     08712300220
+6     08707509020
+4     09061221066
+4     08718727870
+4     08715705022
+4     08712405020
+4     08702840625
+4     0808
+4     08002986906
+4     08001950382
+
+----------------------------------------------------------------------
+8. ANÁLISIS DE LONGITUD DE PALABRAS (SPAM)
+----------------------------------------------------------------------
+Palabras muy cortas (<= 3 caracteres) en spam (Top 15):
+691   to
+393   a
+299   you
+206   the
+204   for
+203   now
+192   or
+186   u
+180   p
+170   txt
+158   is
+145   on
+144   ur
+122   and
+99    t
+
+Palabras muy largas (> 15 caracteres) en spam (Top 15):
+3     ppermesssubscription
+3     minmobsmorelkpobox
+3     deliveredtomorrow
+2     xxxmobilemovieclub
+2     shracomorsglsuplt
+2     minmoremobsemspobox
+1     pmmorefrommobile
+1     planettalkinstant
+1     monthlysubscription
+1     customersqueries
+1     accommodationvouchers
+
+----------------------------------------------------------------------
+9. CÁLCULO DE ENTROPÍA APROXIMADA (spam)
+----------------------------------------------------------------------
+Entropía aproximada (basada en caracteres): 5.2013 bits/carácter
+
+----------------------------------------------------------------------
+10. ANÁLISIS DE CAPITALIZACIÓN Y 'SHOUTING' (SPAM)
+----------------------------------------------------------------------
+Palabras en MAYÚSCULAS (>1 carácter) en spam (Top 15):
+117   FREE
+63    STOP
+45    NOW
+41    URGENT
+31    PO
+26    YOU
+26    SMS
+23    WON
+23    GUARANTEED
+22    UR
+21    YES
+21    UK
+21    SAE
+21    CALL
+19    WIN
+
+Mensajes de spam con alta capitalización (ej. >50% de letras en mayúsculas):
+Número total de mensajes de spam con alta capitalización: 20
+
+----------------------------------------------------------------------
+11. DETECCIÓN DE EMOTICONOS/EMOJIS (ASCII) (SPAM)
+----------------------------------------------------------------------
+Emoticonos ASCII comunes encontrados en spam (Top 15):
+
+----------------------------------------------------------------------
+12. MÉTRICAS DE TEXTO Y LEGIBILIDAD (spam)
+----------------------------------------------------------------------
+Longitud promedio de los mensajes: 138.68 caracteres
+Longitud promedio de palabra: 4.07 caracteres
+Número total de palabras únicas: 2101
+
+Distribución de caracteres:
+  Mayúsculas:      0.00%
+  Minúsculas:      67.60%
+  Dígitos:         0.00%
+  Espacios:        32.40%
+  Puntuación/Otros: 0.00%
+
+======================================================================
+               ANÁLISIS DE MENSAJES HAM (NO-SPAM)                   
+======================================================================
+----------------------------------------------------------------------
+1. ANÁLISIS DE PALABRAS CLAVE COMUNES (HAM)
+----------------------------------------------------------------------
+Las 15 palabras más comunes en el HAM (excluyendo stop words básicas y palabras de una letra):
+318   gt
+316   lt
+288   ok
+266   ll
+247   all
+235   good
+234   like
+234   got
+231   come
+218   day
+217   am
+205   love
+169   going
+168   one
+166   want
+
+----------------------------------------------------------------------
+9. CÁLCULO DE ENTROPÍA APROXIMADA (ham)
+----------------------------------------------------------------------
+Entropía aproximada (basada en caracteres): 4.6831 bits/carácter
+
+----------------------------------------------------------------------
+12. MÉTRICAS DE TEXTO Y LEGIBILIDAD (ham)
+----------------------------------------------------------------------
+Longitud promedio de los mensajes: 71.47 caracteres
+Longitud promedio de palabra: 3.69 caracteres
+Número total de palabras únicas: 6757
+
+Distribución de caracteres:
+  Mayúsculas:      0.00%
+  Minúsculas:      75.16%
+  Dígitos:         0.00%
+  Espacios:        24.84%
+  Puntuación/Otros: 0.00%
+
+======================================================================
+                    COMPARACIÓN SPAM VS. HAM                        
+======================================================================
+Métrica                  | Spam                  | Ham
+-------------------------|-----------------------|-----------------------
+Total Mensajes           | 747                   | 4827                 
+Longitud Promedio Mensaje| 138.68                | 71.47                
+Longitud Promedio Palabra| 4.07                  | 3.69                 
+Palabras Únicas         | 2101                  | 6757                 
+Entropía (bits/char)    | 5.2013                | 4.6831               
+% Mayúsculas            | 0.00%                 | 0.00%                
+% Dígitos               | 0.00%                 | 0.00%                
+----------------------------------------------------------------------
+
+======================================================================
+                       FIN DEL REPORTE DE ANÁLISIS                  
+======================================================================

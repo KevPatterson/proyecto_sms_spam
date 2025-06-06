@@ -3,36 +3,7 @@
 # ==============================================================================
 # Script de Análisis Profundo de Mensajes de Spam
 # ==============================================================================
-# Este script realiza un análisis exhaustivo de un conjunto de datos de mensajes
-# (spam y ham), extrayendo patrones, métricas y comparaciones, utilizando
-# herramientas de línea de comandos como grep, awk, sort, uniq, wc, etc.
-#
-# Genera un reporte detallado en un archivo de texto plano, y resúmenes
-# estadísticos en formato CSV y JSON.
-#
-# Uso: ./analizar_spam_profesional.sh [archivo_entrada]
-# Si no se especifica archivo_entrada, se usará la ruta por defecto para WSL.
-#
-# Funcionalidades Incluidas:
-# - Filtrado de mensajes de spam y ham.
-# - Conteo de mensajes de spam y ham.
-# - Análisis de n-gramas (bigramas, trigramas).
-# - Análisis de palabras clave comunes (con filtrado de stop words).
-# - Detección de posibles shortcodes/identificadores de remitente.
-# - Extracción y conteo de URLs sospechosas.
-# - Detección y extracción de direcciones de correo electrónico.
-# - Extracción de dominios (hostnames) de las URLs encontradas.
-# - Identificación de patrones de números de teléfono.
-# - Análisis de palabras muy largas o muy cortas.
-# - Cálculo de entropía aproximada del texto (basada en caracteres).
-# - Análisis de capitalización y "shouting" (palabras en MAYÚSCULAS).
-# - Detección de emoticonos o emojis (versión ASCII).
-# - Métricas de legibilidad simples (longitud media de palabra).
-# - Comparación de métricas clave entre mensajes spam y ham.
-# - Manejo de errores para archivos inexistentes.
-# - Parámetros configurables (ej. número de resultados principales a mostrar).
-# - Exportación de resultados a un archivo de reporte con formato atractivo.
-# - Exportación de un resumen de estadísticas en formato CSV y JSON.
+# [El resto del encabezado permanece igual]
 # ==============================================================================
 
 # --- Configuración de Archivos y Rutas --------------------------------------
@@ -42,14 +13,14 @@ SPAM_ONLY_FILE="temp_spam_messages_only.txt"
 HAM_ONLY_FILE="temp_ham_messages_only.txt"
 
 # Ruta de salida para los archivos de reporte en el entorno WSL
-REPORT_DIR="/mnt/c/Me/School/ADT/proyecto_sms_spam/tecnica_ia/resultados"
+REPORT_DIR="/mnt/c/Me/School/ADT/proyecto_sms_spam/tecnica_trazas/resultados"
 REPORT_TIMESTAMP=$(date +%Y%m%d_%H%M%S) # Para nombres de archivo únicos
 
 REPORT_TEXT_FILE="$REPORT_DIR/spam_analysis_report_$REPORT_TIMESTAMP.txt"
 REPORT_CSV_FILE="$REPORT_DIR/spam_analysis_summary_$REPORT_TIMESTAMP.csv"
 REPORT_JSON_FILE="$REPORT_DIR/spam_analysis_summary_$REPORT_TIMESTAMP.json"
 
-TOP_N_RESULTS=15 # Número de resultados principales a mostrar para listas.
+TOP_N_RESULTS=10 # Número de resultados principales a mostrar para listas.
 
 # --- Variables para almacenar métricas (para CSV/JSON) ----------------------
 declare -A METRICS # Usa un diccionario asociativo para almacenar métricas
@@ -65,10 +36,10 @@ fi
 
 # Asegurarse de que la ruta proporcionada o por defecto exista
 if [ ! -f "$DATA_FILE" ]; then
-    echo "Error: El archivo '$DATA_FILE' no se encontró."
-    echo "Por favor, asegúrese de que el archivo exista en la ruta especificada."
-    echo "Si lo ejecutas en WSL, verifica que la ruta de Windows esté correctamente"
-    echo "traducida (ej. 'C:\\ruta\\archivo.txt' -> '/mnt/c/ruta/archivo.txt')."
+    echo "Error: El archivo '$DATA_FILE' no se encontró." >&2
+    echo "Por favor, asegúrese de que el archivo exista en la ruta especificada." >&2
+    echo "Si lo ejecutas en WSL, verifica que la ruta de Windows esté correctamente" >&2
+    echo "traducida (ej. 'C:\\ruta\\archivo.txt' -> '/mnt/c/ruta/archivo.txt')." >&2
     exit 1
 fi
 
@@ -102,14 +73,11 @@ prepare_data() {
 analyze_common_keywords() {
     local file_to_analyze="$1"
     local prefix="$2"
-    local output
-
-# Función para analizar palabras clave comunes
-analyze_common_keywords() {
+    
     echo "----------------------------------------------------------------------"
-    echo "1. ANÁLISIS DE PALABRAS CLAVE COMUNES"
+    echo "1. ANÁLISIS DE PALABRAS CLAVE COMUNES ($prefix)"
     echo "----------------------------------------------------------------------"
-    echo "Las $TOP_N_RESULTS palabras más comunes en el spam (excluyendo stop words básicas y palabras de una letra):"
+    echo "Las $TOP_N_RESULTS palabras más comunes en el $prefix (excluyendo stop words básicas y palabras de una letra):"
     awk -v top_n="$TOP_N_RESULTS" '
     BEGIN { RS="[^a-zA-Z]+" }
     {
@@ -153,7 +121,7 @@ analyze_common_keywords() {
         for (word in count) {
             print count[word], word
         }
-    }' "$SPAM_ONLY_FILE" | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}' # Formato de salida
+    }' "$file_to_analyze" | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
     echo ""
 }
 
@@ -163,11 +131,10 @@ analyze_ngrams() {
     echo "2. ANÁLISIS DE N-GRAMAS (SPAM)"
     echo "----------------------------------------------------------------------"
     echo "Top $TOP_N_RESULTS Bigramas (pares de palabras) en spam:"
-    # Tokeniza, limpia puntuación, convierte a minúsculas y genera bigramas
     awk '
     {
         gsub(/[^a-zA-Z0-9 ]/, "", $0); # Elimina puntuación, mantiene números y espacios
-        tolower($0); # Convierte a minúsculas
+        $0 = tolower($0); # Convierte a minúsculas
         split($0, words, " "); # Divide la línea en palabras
         for (i=1; i<length(words); i++) {
             if (words[i] != "" && words[i+1] != "") { # Asegura que no sean palabras vacías
@@ -187,9 +154,9 @@ analyze_ngrams() {
     awk '
     {
         gsub(/[^a-zA-Z0-9 ]/, "", $0);
-        tolower($0);
+        $0 = tolower($0);
         split($0, words, " ");
-        for (i=1; i<length(words)-1; i++) {
+        for (i=1; i<=(length(words)-2); i++) {
             if (words[i] != "" && words[i+1] != "" && words[i+2] != "") {
                 trigram = words[i] " " words[i+1] " " words[i+2];
                 trigram_count[trigram]++;
@@ -203,7 +170,6 @@ analyze_ngrams() {
     }' "$SPAM_ONLY_FILE" | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
     echo ""
 }
-
 
 # Función para analizar posibles remitentes (shortcodes o nombres de servicios)
 analyze_senders() {
@@ -224,7 +190,7 @@ analyze_urls() {
     echo "4. ANÁLISIS DE URLs SOSPECHOSAS (SPAM)"
     echo "----------------------------------------------------------------------"
     echo "URLs encontradas en mensajes de spam (Top $TOP_N_RESULTS):"
-    grep -oP 'https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}(/[a-zA-Z0-9._~/?#%&=-]*)?' "$SPAM_ONLY_FILE" | sort | uniq -c | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
+    grep -oP 'https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}(/[a-zA-Z0-9._~?#%&=-]*)?' "$SPAM_ONLY_FILE" | sort | uniq -c | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
     echo ""
 }
 
@@ -244,9 +210,8 @@ extract_domains() {
     echo "6. EXTRACCIÓN DE DOMINIOS (HOSTNAMES) DE URLs (SPAM)"
     echo "----------------------------------------------------------------------"
     echo "Dominios más frecuentes en URLs de spam (Top $TOP_N_RESULTS):"
-    # Extrae URLs completas, luego usa sed para obtener solo el dominio
     grep -oP 'https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}' "$SPAM_ONLY_FILE" | \
-    sed -E 's/https?:\/\/(www\.)?([^/]+).*/\2/' | sort | uniq -c | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
+    sed -E 's|https?://(www\.)?([^/]+).*|\2|' | sort | uniq -c | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
     echo ""
 }
 
@@ -269,9 +234,9 @@ analyze_word_lengths() {
     awk '
     {
         gsub(/[^a-zA-Z]/, " ", $0); # Reemplaza no-letras con espacios
-        tolower($0);
-        split($0, words, " ");
-        for (i=1; i<=length(words); i++) {
+        $0 = tolower($0);
+        n = split($0, words, " ");
+        for (i=1; i<=n; i++) {
             if (length(words[i]) <= 3 && length(words[i]) > 0) {
                 count[words[i]]++;
             }
@@ -288,9 +253,9 @@ analyze_word_lengths() {
     awk '
     {
         gsub(/[^a-zA-Z]/, " ", $0);
-        tolower($0);
-        split($0, words, " ");
-        for (i=1; i<=length(words); i++) {
+        $0 = tolower($0);
+        n = split($0, words, " ");
+        for (i=1; i<=n; i++) {
             if (length(words[i]) > 15) {
                 count[words[i]]++;
             }
@@ -314,7 +279,6 @@ calculate_approx_entropy() {
 
     entropy_val=$(awk '
     BEGIN {
-        # log_2(x) = log(x) / log(2)
         LOG2 = log(2);
         total_chars = 0;
     }
@@ -327,13 +291,12 @@ calculate_approx_entropy() {
     }
     END {
         if (total_chars == 0) {
-            print 0; # No characters to analyze
+            print 0;
             exit;
         }
         entropy = 0;
         for (char in char_freq) {
             p = char_freq[char] / total_chars;
-            # Asegura que log no se aplique a cero o NaN si p es muy pequeño (aunque p > 0 por construcción)
             if (p > 0) {
                 entropy -= p * (log(p) / LOG2);
             }
@@ -355,13 +318,15 @@ analyze_capitalization_shouting() {
     echo "10. ANÁLISIS DE CAPITALIZACIÓN Y 'SHOUTING' (SPAM)"
     echo "----------------------------------------------------------------------"
     echo "Palabras en MAYÚSCULAS (>1 carácter) en spam (Top $TOP_N_RESULTS):"
-    # Busca palabras que consisten solo en mayúsculas (2 o más caracteres)
     grep -oP '\b[A-Z]{2,}\b' "$SPAM_ONLY_FILE" | sort | uniq -c | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
     echo ""
 
-    # Conteo de mensajes con un alto porcentaje de mayúsculas (ej. más del 50% de caracteres alfabéticos son mayúsculas)
+    # Conteo de mensajes con un alto porcentaje de mayúsculas
     echo "Mensajes de spam con alta capitalización (ej. >50% de letras en mayúsculas):"
     awk '
+    BEGIN {
+        messages_shouting = 0;
+    }
     {
         upper_chars = 0;
         total_alpha_chars = 0;
@@ -375,12 +340,10 @@ analyze_capitalization_shouting() {
             }
         }
         if (total_alpha_chars > 0 && (upper_chars / total_alpha_chars) > 0.5) {
-            print $0; # Imprime el mensaje completo si cumple la condición
             messages_shouting++;
         }
     }
     END {
-        print "----------------------------------------------------------------------";
         print "Número total de mensajes de spam con alta capitalización: " messages_shouting;
     }' "$SPAM_ONLY_FILE"
     echo ""
@@ -391,8 +354,7 @@ detect_emoticons() {
     echo "----------------------------------------------------------------------"
     echo "11. DETECCIÓN DE EMOTICONOS/EMOJIS (ASCII) (SPAM)"
     echo "----------------------------------------------------------------------"
-    # Patrones comunes de emoticonos ASCII
-    local EMOTICONS_REGEX='(:-\)|:-\(|:D|:P|;\)|\(:|:\'\(|XD|:o|:O|:\*|<3|\:\-?\s*[\(\)\|\]\[/DPSO<>C*])'
+    local EMOTICONS_REGEX='(:-\)|:-\(|:D|:P|;\)|\(:|:\\\(|XD|:o|:O|:\*|<3)'
     echo "Emoticonos ASCII comunes encontrados en spam (Top $TOP_N_RESULTS):"
     grep -oP "$EMOTICONS_REGEX" "$SPAM_ONLY_FILE" | sort | uniq -c | sort -nr | head -n "$TOP_N_RESULTS" | awk '{printf "%-5s %s\n", $1, $2}'
     echo ""
@@ -407,15 +369,27 @@ calculate_text_metrics() {
     local results
 
     results=$(awk '
+    BEGIN {
+        upper_count = 0;
+        lower_count = 0;
+        digit_count = 0;
+        space_count = 0;
+        punct_count = 0;
+        total_chars = 0;
+        total_line_length = 0;
+        line_count = 0;
+        total_word_length = 0;
+        word_count = 0;
+    }
     {
         line_length = length($0);
         total_line_length += line_length;
         line_count++;
 
-        gsub(/[^a-zA-Z]/, " ", $0); # Limpia puntuación para contar palabras
-        tolower($0);
-        split($0, words, " ");
-        for (i=1; i<=length(words); i++) {
+        gsub(/[^a-zA-Z]/, " ", $0);
+        $0 = tolower($0);
+        n = split($0, words, " ");
+        for (i=1; i<=n; i++) {
             if (length(words[i]) > 0) {
                 total_word_length += length(words[i]);
                 word_count++;
@@ -423,7 +397,7 @@ calculate_text_metrics() {
             }
         }
 
-        # Caracteres para distribución
+        # Resetear variables para distribución de caracteres
         for (i=1; i<=line_length; i++) {
             char = substr($0, i, 1);
             if (char ~ /[A-Z]/) upper_count++;
@@ -499,7 +473,6 @@ compare_spam_vs_ham() {
 generate_csv_report() {
     echo "Generando reporte CSV en: $REPORT_CSV_FILE"
     {
-        # Encabezados CSV
         echo "Metric,SpamValue,HamValue"
         echo "Total_Messages,${METRICS["total_spam_messages"]},${METRICS["total_ham_messages"]}"
         echo "Average_Message_Length,${METRICS["spam_avg_msg_len"]},${METRICS["ham_avg_msg_len"]}"
@@ -573,14 +546,13 @@ main() {
     # 1. Crear el directorio de resultados si no existe
     mkdir -p "$REPORT_DIR"
     if [ $? -ne 0 ]; then
-        echo "Error: No se pudo crear el directorio de resultados '$REPORT_DIR'."
-        echo "Asegúrese de tener los permisos adecuados."
+        echo "Error: No se pudo crear el directorio de resultados '$REPORT_DIR'." >&2
+        echo "Asegúrese de tener los permisos adecuados." >&2
         exit 1
     fi
 
     # 2. Redirigir toda la salida de las funciones de análisis al archivo de reporte de texto
-    { # Abre un bloque para redirigir toda la salida dentro de él
-
+    {
         prepare_data # Prepara tanto spam como ham
         
         # Análisis para SPAM
@@ -595,15 +567,15 @@ main() {
         calculate_approx_entropy "$SPAM_ONLY_FILE" "spam"
         analyze_capitalization_shouting
         detect_emoticons
-        calculate_text_metrics "$SPAM_ONLY_FILE" "spam" # Calcula AVG len y dist. caracteres para spam
+        calculate_text_metrics "$SPAM_ONLY_FILE" "spam"
 
-        # Análisis para HAM (Solo las métricas clave para comparación)
+        # Análisis para HAM
         echo "======================================================================"
         echo "               ANÁLISIS DE MENSAJES HAM (NO-SPAM)                   "
         echo "======================================================================"
         analyze_common_keywords "$HAM_ONLY_FILE" "HAM"
         calculate_approx_entropy "$HAM_ONLY_FILE" "ham"
-        calculate_text_metrics "$HAM_ONLY_FILE" "ham" # Calcula AVG len y dist. caracteres para ham
+        calculate_text_metrics "$HAM_ONLY_FILE" "ham"
 
         # Comparación final
         compare_spam_vs_ham
@@ -612,9 +584,9 @@ main() {
         echo "                       FIN DEL REPORTE DE ANÁLISIS                  "
         echo "======================================================================"
 
-    } > "$REPORT_TEXT_FILE" # Redirige todo el bloque al archivo de reporte de texto
+    } > "$REPORT_TEXT_FILE"
 
-    # Generar reportes CSV y JSON (no redirigidos, ya que son su propio archivo)
+    # Generar reportes CSV y JSON
     generate_csv_report
     generate_json_report
 

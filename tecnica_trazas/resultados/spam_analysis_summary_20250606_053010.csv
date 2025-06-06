@@ -1,0 +1,11 @@
+Metric,SpamValue,HamValue
+Total_Messages,747,4827
+Average_Message_Length,138.68,71.47
+Average_Word_Length,4.07,3.69
+Unique_Words_Count,2101,6757
+Approx_Entropy,5.2013,4.6831
+Uppercase_Percentage,0.00,0.00
+Lowercase_Percentage,67.60,75.16
+Digit_Percentage,0.00,0.00
+Space_Percentage,32.40,24.84
+Punctuation_Other_Percentage,0.00,0.00

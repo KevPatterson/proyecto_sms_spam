@@ -1,0 +1,35 @@
+{
+  "report_timestamp": "20250606_053010",
+  "data_file": "/mnt/c/Me/School/ADT/proyecto_sms_spam/tecnica_ia/datos_raw/SMSSpamCollection.txt",
+  "summary": {
+    "total_messages": 5574,
+    "spam": {
+      "total_messages": 747,
+      "average_message_length": 138.68,
+      "average_word_length": 4.07,
+      "unique_words_count": 2101,
+      "approx_entropy": 5.2013,
+      "character_distribution": {
+        "uppercase_percentage": 0.00,
+        "lowercase_percentage": 67.60,
+        "digit_percentage": 0.00,
+        "space_percentage": 32.40,
+        "punctuation_other_percentage": 0.00
+      }
+    },
+    "ham": {
+      "total_messages": 4827,
+      "average_message_length": 71.47,
+      "average_word_length": 3.69,
+      "unique_words_count": 6757,
+      "approx_entropy": 4.6831,
+      "character_distribution": {
+        "uppercase_percentage": 0.00,
+        "lowercase_percentage": 75.16,
+        "digit_percentage": 0.00,
+        "space_percentage": 24.84,
+        "punctuation_other_percentage": 0.00
+      }
+    }
+  }
+}
