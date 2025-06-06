@@ -1,0 +1,122 @@
+======================================================================
+                         INICIANDO ANÁLISIS DE SPAM                 
+======================================================================
+Fecha y Hora del Reporte: Fri Jun  6 04:26:16 AM EDT 2025
+Archivo de Datos Analizado: /mnt/c/Me/School/ADT/proyecto_sms_spam/tecnica_ia/datos_raw/SMSSpamCollection.txt
+----------------------------------------------------------------------
+Preparando datos: Filtrando mensajes de spam...
+Número total de mensajes de spam extraídos: 747
+
+----------------------------------------------------------------------
+1. ANÁLISIS DE PALABRAS CLAVE COMUNES
+----------------------------------------------------------------------
+Las 15 palabras más comunes en el spam (excluyendo stop words básicas y palabras de una letra):
+128   stop
+126   text
+113   claim
+104   reply
+98    www
+93    prize
+76    won
+76    cash
+74    uk
+72    win
+71    send
+71    nokia
+63    urgent
+60    week
+60    tone
+
+----------------------------------------------------------------------
+2. ANÁLISIS DE POSIBLES REMITENTES/IDENTIFICADORES
+----------------------------------------------------------------------
+Shortcodes o números de remitente comunes (5-6 dígitos - Top 15):
+19    86688
+13    87066
+8     87077
+7     85023
+7     82277
+7     62468
+7     36504
+6     86021
+5     83355
+5     80488
+5     80062
+4     88039
+4     87575
+4     87239
+4     87131
+
+Nombres de empresas o servicios comunes (identificados en el texto - Top 15):
+1296  p
+422   P
+324   £
+232   call
+165   Call
+134   FREE
+121   txt
+112   mobile
+105   min
+86    Txt
+82    claim
+79    prize
+69    free
+66    STOP
+64    stop
+
+----------------------------------------------------------------------
+3. ANÁLISIS DE URLs SOSPECHOSAS
+----------------------------------------------------------------------
+URLs encontradas en mensajes de spam (Top 15):
+5     http://www.urawinner.com
+2     http://www.e-tlp.co.uk/expressoffer
+1     http://www.wtlp.co.uk/text.
+1     http://www.vouch4me.com/etlp/dining.asp
+1     http://www.e-tlp.co.uk/reward.
+1     http://www.bubbletext.com
+1     http://gotbabes.co.uk
+1     http://alto18.co.uk/wave/wave.asp?o=44345
+
+----------------------------------------------------------------------
+4. ANÁLISIS DE PATRONES DE NÚMEROS DE TELÉFONO
+----------------------------------------------------------------------
+Números de teléfono encontrados en mensajes de spam (Patrones comunes UK/general - Top 15):
+16    08000930705
+15    08000839402
+8     08712460324
+7     08718720201
+6     09050090044
+6     08712300220
+6     08707509020
+4     09061221066
+4     08718727870
+4     08715705022
+4     08712405020
+4     08702840625
+4     0808
+4     08002986906
+4     08001950382
+
+----------------------------------------------------------------------
+5. CÁLCULO DEL TAMAÑO PROMEDIO DE LOS MENSAJES
+----------------------------------------------------------------------
+Longitud promedio de los mensajes de spam: 138.68 caracteres
+
+----------------------------------------------------------------------
+6. CONTEO DE PALABRAS ÚNICAS
+----------------------------------------------------------------------
+Número total de palabras únicas en los mensajes de spam: 2101
+
+----------------------------------------------------------------------
+7. ANÁLISIS DE DISTRIBUCIÓN DE TIPOS DE CARACTERES
+----------------------------------------------------------------------
+Total de caracteres analizados: 103591
+  Mayúsculas:      11.16% (11556)
+  Minúsculas:      56.45% (58474)
+  Dígitos:         11.40% (11812)
+  Espacios:        16.55% (17146)
+  Puntuación/Otros: 4.44% (4603)
+
+======================================================================
+                       FIN DEL REPORTE DE ANÁLISIS                  
+======================================================================
