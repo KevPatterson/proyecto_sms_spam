@@ -124,10 +124,35 @@ cd tecnica_trazas/scripts_bash/
 
 ---
 
-## 📈 Visualización y Extensiones
+## 📊 Visualización y Monitorización (ELK Stack)
 
-* Puede integrarse con **Elasticsearch** y **Kibana** cargando los archivos NDJSON desde `datos_raw/` para análisis interactivo.
-* Agregar notebooks de visualización en `tecnica_ia/notebooks/` o dashboards de Kibana.
+Elasticsearch: ingestión de NDJSON en índices diarios.
+
+Logstash (tecnica_adt/logstash/kevin.conf): pipeline JSON → campos, timestamps.
+
+Kibana: dashboards con conteo ham/​spam, series temporales, top emisores y heatmaps.
+
+Alertas: Watcher para umbrales de spam (>20%).
+
+## 🎨 Reporting con Power BI
+
+Dashboards interactivos de métricas de IA (AUC, recall), análisis temporal y geográfico de spam.
+
+KPI cards, series temporales, mapas y heatmaps.
+
+Conexión directa a CSV generados por generar_reportes.py y refresco automático.
+
+## 📓 Exploración y Análisis Visual
+
+Jupyter Notebooks: notebooks para exploración, preprocesamiento, modelado y evaluación.
+
+Orange Data Mining: flujo analisis_data_cruda.ows para clustering y visualización sin código.
+
+## 🔧 Orquestación y CI/CD
+
+Makefile: unifica conversión, análisis, entrenamiento y despliegue de dashboards.
+
+GitHub Actions: lint, tests, entrenamiento de modelos y despliegue de configuraciones ELK.
 
 ---
 
